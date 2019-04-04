@@ -1,25 +1,20 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@ include file="/static/include/taglib.jsp"%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>单车租用</title>
-    <link rel="stylesheet" href="layui/css/layui.css">
-    <script src="layui/layui.all.js"></script>
-    <script src="js/jquery-1.11.3.min.js"></script>
-    <script src="js/index.js"></script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="/static/layui/layui.all.js"></script>
+    <script src="/static/js/jquery-1.11.3.min.js"></script>
+    <script src="/static/js/index.js"></script>
 </head>
 <body>
-<div class="demoTable">
-    搜索ID：
-    <div class="layui-inline">
-        <input class="layui-input" name="id" id="demoReload" autocomplete="off">
-    </div>
-    <button class="layui-btn" data-type="reload">搜索</button>
-</div>
 
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xm" lay-event="rent">租用</a>
+    <a class="layui-btn layui-btn-xm" lay-event="pay">支付</a>
 </script>
 <script type="text/javascript">
 $(function () {
@@ -33,16 +28,15 @@ $(function () {
         //方法级渲染
         table.render({
             elem: '#test'
-            ,url: '/rentList'
+            ,url: '/orderList'
             ,cols: [
                 [
                     {checkbox: true, fixed: true}
                     ,{field:'id', title: 'ID', sort: true, fixed: true}
-                    ,{field:'name', title: '单车名称'}
-                    ,{field:'number', title: '单车数量', sort: true}
-                    ,{field:'price', title: '单车价格'}
-                    ,{field:'type', title: '单车类型'}
-                    ,{field:'status', title: '单车状态', sort: true}
+                    ,{field:'bicycleName', title: '单车名称'}
+                    ,{field:'totalPrice', title: '总价'}
+                    ,{field:'statusName', title: '订单状态'}
+                    ,{field:'bicycleTypeName', title: '单车类型', sort: true}
                     ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
                 ]
             ]
@@ -53,42 +47,40 @@ $(function () {
         table.on('tool(test)', function(obj){
             var data = obj.data;
             console.info(data)
-            if(obj.event === 'rent'){
+            if(obj.event === 'pay'){
                 layer.open({
                     type: 1
-                    ,title: "确认租赁" //不显示标题栏
+                    ,title: "确认支付" //不显示标题栏
                     ,closeBtn: false
-                    ,area: '600px;'
+                    ,area: '300px;'
                     ,shade: 0.8
                     ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
-                    ,btn: ['确认租用', '残忍拒绝']
+                    ,btn: ['确认支付', '残忍拒绝']
                     ,btnAlign: 'c'
                     ,moveType: 1 //拖拽模式，0或者1
-                    ,content:'<div class="layui-form-item">\n' +
-                    '    <label class="layui-form-label">租赁时间</label>\n' +
-                    '    <div class="layui-input-block">\n' +
-                    '        <input type="text" id="rentTime" name="title" lay-verify="title" autocomplete="off" placeholder="请输入租赁时间" class="layui-input">' +
-                    '    </div>\n' +
-                    '</div>'
+                    ,content:''
                     ,yes: function(){
-                        var time=$('#rentTime').val();
-                        console.info(time);
                         var id=data.id;
                         $.ajax({
                             type: "post",
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             data:JSON.stringify({
-                                "time":time,
-                                "bicycleId":id,
+                                "orderId":id
                             }),
-                            url: "/createRent",
+                            url: "/orderPay",
                             success: function (result) {
                                 if (result.code != "0") {
                                     alert(result.errorMessage);
                                 } else {
-                                    alert("创建租赁订单成功");
+                                    alert("支付成功");
                                     layer.closeAll();
+                                    //执行重载
+                                    table.reload('test', {
+                                        page: {
+                                            curr: 1 //重新从第 1 页开始
+                                        }
+                                    });
                                 }
                             }
                         });

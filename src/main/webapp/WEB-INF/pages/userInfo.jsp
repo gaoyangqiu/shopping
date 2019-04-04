@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+                                                        pageEncoding="UTF-8"%>
 <%@ include file="/static/include/taglib.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -57,7 +57,7 @@ pageEncoding="UTF-8"%>
     <div class="layui-inline">
         <label class="layui-form-label">余额</label>
         <div class="layui-input-inline" style="width: 100px;">
-            <input type="text" name="balance" placeholder="￥" autocomplete="off" class="layui-input" disabled>
+            <input type="text" name="balance" placeholder="￥" autocomplete="off" class="layui-input" value="${sessionScope.user.balance}" disabled>
         </div>
     </div>
 

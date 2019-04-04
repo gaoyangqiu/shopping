@@ -9,11 +9,11 @@ public class TbBicycle {
 
     private Long price;
 
-    private Byte type;
+    private Integer type;
 
-    private Byte status;
+    private Integer status;
 
-    private Byte deflag;
+    private Integer deflag;
 
     public Integer getId() {
         return id;
@@ -47,27 +47,27 @@ public class TbBicycle {
         this.price = price;
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public Byte getDeflag() {
+    public Integer getDeflag() {
         return deflag;
     }
 
-    public void setDeflag(Byte deflag) {
+    public void setDeflag(Integer deflag) {
         this.deflag = deflag;
     }
 }

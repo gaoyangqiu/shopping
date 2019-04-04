@@ -1,12 +1,10 @@
 package com.car.shopping.controller;
 
 import com.car.shopping.common.RestResult;
-import com.car.shopping.entity.TbBicycle;
 import com.car.shopping.entity.TbUsers;
 import com.car.shopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +32,19 @@ public class UserController {
     public RestResult updateUserInfo(@RequestBody TbUsers users, HttpSession session) {
         userService.updateUserInfo(users);
         session.setAttribute("user",users);
+        return RestResult.success();
+    }
+
+    @RequestMapping("regist")
+    public String regist (){
+        return "regist";
+    }
+
+
+    @RequestMapping("/registUserInfo")
+    @ResponseBody
+    public RestResult registUserInfo(@RequestBody TbUsers users) {
+        userService.registUserInfo(users);
         return RestResult.success();
     }
 

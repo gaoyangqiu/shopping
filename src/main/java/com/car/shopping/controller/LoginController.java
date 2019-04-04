@@ -6,6 +6,7 @@ import com.car.shopping.entity.TbUsers;
 import com.car.shopping.service.UserService;
 import com.car.shopping.vo.LoginVo;
 import com.car.shopping.vo.MenusVo;
+import com.car.shopping.vo.UserVo;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,5 +61,11 @@ public class LoginController {
         MenusVo menusVo4=new MenusVo("订单","/order");
         List<MenusVo> menusVoList=Lists.newArrayList(menusVo1,menusVo2,menusVo3,menusVo4);
         return menusVoList;
+    }
+
+    @RequestMapping("loginOut")
+    public String loginOut(HttpSession session){
+        session.invalidate();
+        return "login";
     }
 }

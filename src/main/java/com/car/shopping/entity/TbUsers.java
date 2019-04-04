@@ -19,6 +19,8 @@ public class TbUsers {
 
     private String phone;
 
+    private Integer balance;
+
     private String eCode;
 
     private String status;
@@ -87,6 +89,14 @@ public class TbUsers {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
     }
 
     public String geteCode() {

@@ -1,6 +1,9 @@
 package com.car.shopping.service.Impl;
 
+import com.car.shopping.dao.TbAccountMapper;
 import com.car.shopping.dao.TbUsersMapper;
+import com.car.shopping.entity.TbAccount;
+import com.car.shopping.entity.TbAccountExample;
 import com.car.shopping.entity.TbUsers;
 import com.car.shopping.entity.TbUsersExample;
 import com.car.shopping.service.UserService;
@@ -9,6 +12,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 import java.util.List;
@@ -24,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TbUsersMapper usersMapper;
+
+    @Autowired
+    private TbAccountMapper accountMapper;
     @Override
     public TbUsers findUserByPhoneAndPassword(LoginVo loginVo) {
         TbUsersExample example=new TbUsersExample();
@@ -38,6 +45,15 @@ public class UserServiceImpl implements UserService {
         if (CollectionUtils.isEmpty(tbUsersList)){
             return null;
         }
+/*        UserVo vo=new UserVo();
+        BeanUtils.copyProperties(tbUsersList.get(0),vo);
+        TbAccountExample accountExample=new TbAccountExample();
+        TbAccountExample.Criteria criteria1=accountExample.createCriteria();
+        criteria1.andUserIdEqualTo(tbUsersList.get(0).getUid().intValue());
+        List<TbAccount> accounts=accountMapper.selectByExample(accountExample);
+        if (CollectionUtils.isNotEmpty(accounts)){
+            vo.setBalance(accounts.get(0).getBalance());
+        }*/
         return tbUsersList.get(0);
     }
 
@@ -46,5 +62,14 @@ public class UserServiceImpl implements UserService {
         users.setCreateTime(new Date());
         users.setStatus("1");
         usersMapper.updateByPrimaryKeySelective(users);
+    }
+
+    @Override
+
+    public void registUserInfo(TbUsers users) {
+        users.setStatus("1");
+        users.setCreateTime(new Date());
+        users.setSex("2");
+        usersMapper.insertSelective(users);
     }
 }

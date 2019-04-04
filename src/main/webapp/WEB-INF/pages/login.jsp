@@ -37,10 +37,7 @@
 							<input type="password" class="form-control" id="password" placeholder="请输入密码" autocomplete="off">
 						</div>
 						<div class="form-group">
-							<label for="remember"><input type="checkbox" id="remember"> 记住我</label>
-						</div>
-						<div class="form-group">
-							<p>没有注册? <a href="sign-up3.html">注册</a> | <a href="/adminLogin">后台登录</a></p>
+							<p>没有注册? <a href="/regist">注册</a>
 						</div>
 						<div class="form-group">
 							<input  value="登录" class="btn btn-primary" onclick="login()">

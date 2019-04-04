@@ -17,7 +17,7 @@ public class TbOrder {
 
     private Integer status;
 
-    private Byte dflag;
+    private Integer dflag;
 
     private Integer time;
 
@@ -77,11 +77,11 @@ public class TbOrder {
         this.status = status;
     }
 
-    public Byte getDflag() {
+    public Integer getDflag() {
         return dflag;
     }
 
-    public void setDflag(Byte dflag) {
+    public void setDflag(Integer dflag) {
         this.dflag = dflag;
     }
 

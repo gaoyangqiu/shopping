@@ -164,7 +164,12 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+    <select id="getRentListAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_bicycle
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
     update tb_bicycle
     <set >
       <if test="record.id != null" >

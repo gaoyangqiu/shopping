@@ -24,17 +24,17 @@
                 <%
                     TbUsers username = (TbUsers)session.getAttribute("user");
                     String name=username.getNickname();
+                    Integer balance=username.getBalance();
                 %>
                 <a href="javascript:;" id="userName">
                     <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
                     <%=name%>
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
-                    <dd><a href="">安全设置</a></dd>
+                    <dd><a > 余额 <%=balance%>元</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="/logout">退出登录</a></li>
+            <li class="layui-nav-item"><a href="/loginOut">退出登录</a></li>
         </ul>
     </div>
 
@@ -62,7 +62,7 @@
 
     <div class="layui-footer">
         <!-- 底部固定区域 -->
-        © layui.com - 底部固定区域
+        © car.com - 租赁单车前台
     </div>
 </div>
 

@@ -2,6 +2,7 @@ package com.car.shopping.service;
 
 import com.car.shopping.entity.TbUsers;
 import com.car.shopping.vo.LoginVo;
+import com.car.shopping.vo.UserVo;
 
 /**
  * @Author: 72038667
@@ -12,4 +13,6 @@ public interface UserService {
     TbUsers findUserByPhoneAndPassword(LoginVo loginVo);
 
     void updateUserInfo(TbUsers users);
+
+    void registUserInfo(TbUsers users);
 }

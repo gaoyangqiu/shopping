@@ -180,7 +180,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+    <select id="findOrderByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_order
+        where user_id = #{i}
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
     update tb_order
     <set >
       <if test="record.id != null" >

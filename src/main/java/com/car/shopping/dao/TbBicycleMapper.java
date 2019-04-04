@@ -27,4 +27,7 @@ public interface TbBicycleMapper {
     int updateByPrimaryKeySelective(TbBicycle record);
 
     int updateByPrimaryKey(TbBicycle record);
+
+    List<TbBicycle> getRentListAll();
+
 }

@@ -1,12 +1,14 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@ include file="/static/include/taglib.jsp"%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>单车租用</title>
-    <link rel="stylesheet" href="layui/css/layui.css">
-    <script src="layui/layui.all.js"></script>
-    <script src="js/jquery-1.11.3.min.js"></script>
-    <script src="js/index.js"></script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="/static/layui/layui.all.js"></script>
+    <script src="/static/js/jquery-1.11.3.min.js"></script>
+    <script src="/static/js/index.js"></script>
 </head>
 <body>
 
