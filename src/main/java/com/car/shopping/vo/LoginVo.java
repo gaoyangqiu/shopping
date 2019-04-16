@@ -13,4 +13,6 @@ public class LoginVo {
     private String phone;
 
     private String password;
+
+    private String vcode;
 }

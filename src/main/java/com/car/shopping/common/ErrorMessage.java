@@ -18,7 +18,15 @@ public enum  ErrorMessage {
     NullpointerException("5001", "空指针异常"),
 
     /** 自定义异常之返回值为空 */
-    NullResponseException("5002", "自定义异常之返回值为空");
+    NullResponseException("5002", "自定义异常之返回值为空"),
+
+
+    /** 自定义异常之验证码错误 */
+    VCODEEXCEPTION("5003", "验证码错误"),
+
+
+    /** 自定义异常之用户不存在 */
+    USER_NOT_EXIST("5004", "用户不存在");
 
     ErrorMessage(String code, String desc) {
         this.code = code;

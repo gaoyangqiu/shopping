@@ -9,11 +9,11 @@
 	<title>用户登录</title>
 
 	<link rel="shortcut icon" href="favicon.ico">
-
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
 
 
 	<link rel="stylesheet" href="/static/css/bootstrap/bootstrap.min.css">
+		<link rel="stylesheet" href="/static/css/bootstrap/bootstrapValidator.min.css">
 	<link rel="stylesheet" href="/static/css/animate.css">
 	<link rel="stylesheet" href="/static/css/style.css">
 
@@ -32,15 +32,22 @@
 							<label for="username" class="sr-only">用户名</label>
 							<input type="text" class="form-control" id="username" placeholder="请输入用户名" autocomplete="off">
 						</div>
+						<span class="label label-warning" id="user-name-label"></span>
 						<div class="form-group">
 							<label for="password" class="sr-only">密码</label>
 							<input type="password" class="form-control" id="password" placeholder="请输入密码" autocomplete="off">
 						</div>
 						<div class="form-group">
+							<label for="verifyCode" class="sr-only">验证码</label>
+							<input type="text" class="form-control" placeholder="请输入验证码"  autocomplete="off" id="verifyCode" >
+							<span class="label label-warning" id="verifyCode-label"></span>
+							<img src="/vcode" width="100" height="36" onclick="refreshCode(this)" id="captcha"/>
+						</div>
+						<div class="form-group">
 							<p>没有注册? <a href="/regist">注册</a>
 						</div>
 						<div class="form-group">
-							<input  value="登录" class="btn btn-primary" onclick="login()">
+							<input  value="登录" class="btn btn-primary" onclick="login()" readonly="true">
 						</div>
 					</form>
 					<!-- END Sign In Form -->
@@ -55,6 +62,8 @@
 	<script src="/static/js/jquery-1.11.3.min.js"></script>
 	<!-- Bootstrap -->
 	<script src="/static/js/bootstrap/bootstrap.min.js"></script>
+
+		<script src="/static/js/bootstrap/bootstrapValidator.min.js"></script>
 	<!-- Placeholder -->
 	<script src="/static/js/jquery.placeholder.min.js"></script>
 	<!-- Waypoints -->
@@ -63,25 +72,33 @@
 	<script src="/static/js/main.js"></script>
 
 		<script type="text/javascript">
+			function refreshCode(){
+				var captcha = document.getElementById("captcha");
+				captcha.src ="/vcode?t=" + new Date().getTime();
+			}
 
             function login(){
                 var phone=$("#username").val();
                 var password=$("#password").val();
+                var vcode=$("#verifyCode").val();
                 $.ajax({
                         type: "POST",
                         data: JSON.stringify({
                             "phone": phone,
-                            "password": password
+                            "password": password,
+							"vcode":vcode
                         }),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         url: "/ajaxLogin",
                         success: function (result) {
-                            if (result.code != "0") {
-                                alert(result.errorMessage);
-                            } else {
-                                location.href = "/index";
-                            }
+                            if (result.code == "5004") {
+								$("#user-name-label").html(result.errorMessage);
+                            } else if(result.code == "5003") {
+								$("#verifyCode-label").html(result.errorMessage);
+							}else if(result.code == "0") {
+								location.href = "/index";
+							}
                         }
                     }
                 );
