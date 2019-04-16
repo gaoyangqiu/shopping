@@ -1,21 +1,38 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : local
  Source Server Type    : MySQL
- Source Server Version : 50642
+ Source Server Version : 50723
  Source Host           : localhost:3306
  Source Schema         : crm
 
  Target Server Type    : MySQL
- Target Server Version : 50642
+ Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 04/04/2019 20:03:21
+ Date: 08/04/2019 21:38:25
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for tb_account
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_account`;
+CREATE TABLE `tb_account`  (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `acct_num` int(10) NULL DEFAULT NULL COMMENT '账号',
+  `balance` int(10) NOT NULL DEFAULT 0 COMMENT '账户余额',
+  `user_id` int(10) NOT NULL COMMENT '账户所属的用户id',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tb_account
+-- ----------------------------
+INSERT INTO `tb_account` VALUES (1, NULL, 12, 31);
 
 -- ----------------------------
 -- Table structure for tb_admin
@@ -55,16 +72,21 @@ CREATE TABLE `tb_bicycle`  (
   `number` bigint(20) NOT NULL DEFAULT 0,
   `price` bigint(20) NOT NULL COMMENT '单车的租赁价格 元/小时',
   `type` tinyint(4) NOT NULL DEFAULT 0,
+  `count` int(20) NOT NULL DEFAULT 0 COMMENT '单车数量',
   `status` tinyint(4) NOT NULL,
   `deflag` tinyint(4) NOT NULL COMMENT '删除标志',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tb_bicycle
 -- ----------------------------
-INSERT INTO `tb_bicycle` VALUES (2, 'test1', 8, 8, 1, 1, 1);
-INSERT INTO `tb_bicycle` VALUES (4, 'test5', 9, 9, 1, 1, 1);
+INSERT INTO `tb_bicycle` VALUES (2, 'test1', 8, 8, 1, 1770, 1, 1);
+INSERT INTO `tb_bicycle` VALUES (4, 'test5', 9, 9, 2, 1660, 1, 1);
+INSERT INTO `tb_bicycle` VALUES (7, '1111111', 3333, 23, 1, 0, 1, 1);
+INSERT INTO `tb_bicycle` VALUES (8, 'te', 3333, 1, 1, 0, 1, 1);
+INSERT INTO `tb_bicycle` VALUES (9, '1111111', 12314, 2, 2, 0, 1, 1);
+INSERT INTO `tb_bicycle` VALUES (10, '1111111', 12314, 234, 2, 4234, 1, 1);
 
 -- ----------------------------
 -- Table structure for tb_carousel
@@ -111,50 +133,6 @@ CREATE TABLE `tb_customer`  (
 INSERT INTO `tb_customer` VALUES (1, 1, 'c240252729', 1, 1, '123445', '深刻的法律考试的风景', '18066117806', '123456');
 
 -- ----------------------------
--- Table structure for tb_goods
--- ----------------------------
-DROP TABLE IF EXISTS `tb_goods`;
-CREATE TABLE `tb_goods`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_type` int(11) NULL DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `specifications` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '规格',
-  `batch_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '批号',
-  `approval_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '批准文号',
-  `home` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '产地',
-  `price` decimal(10, 2) NULL DEFAULT NULL COMMENT '价格',
-  `packing` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '包装',
-  `suppliers_id` int(11) NULL DEFAULT NULL COMMENT '供应商ID',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of tb_goods
--- ----------------------------
-INSERT INTO `tb_goods` VALUES (1, 7, '西瓜', 'test1', 'test1', 'test1', '中国', 0.03, 'test1', 3);
-INSERT INTO `tb_goods` VALUES (2, 5, 'test1', 'test1', 'test1', 'test3', '中国', 0.03, '123456', 4);
-INSERT INTO `tb_goods` VALUES (3, 5, '冬瓜', 'test1', 'test3', 'test3', '中国', 15.00, 'test3', 4);
-INSERT INTO `tb_goods` VALUES (4, 7, '黄瓜', 'test1', 'test3', 'test3', 'china', 40.00, 'test1', 4);
-
--- ----------------------------
--- Table structure for tb_goods_type
--- ----------------------------
-DROP TABLE IF EXISTS `tb_goods_type`;
-CREATE TABLE `tb_goods_type`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of tb_goods_type
--- ----------------------------
-INSERT INTO `tb_goods_type` VALUES (5, 'test1', 'test1');
-INSERT INTO `tb_goods_type` VALUES (6, 'test12', 'test');
-INSERT INTO `tb_goods_type` VALUES (7, 'test12', 'test');
-
--- ----------------------------
 -- Table structure for tb_log
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_log`;
@@ -167,7 +145,7 @@ CREATE TABLE `tb_log`  (
   `ip` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip',
   `create_time` datetime(0) NOT NULL COMMENT '操作时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 905 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 930 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tb_log
@@ -387,6 +365,31 @@ INSERT INTO `tb_log` VALUES (901, 'admin', '添加供应商信息', '/bicycle/sa
 INSERT INTO `tb_log` VALUES (902, 'admin', '更新供应商信息', '/bicycle/update', '{\"id\":6,\"name\":\"test4\",\"number\":32423,\"price\":234,\"type\":1,\"status\":null,\"deflag\":null};', '0:0:0:0:0:0:0:1', '2019-04-04 10:14:53');
 INSERT INTO `tb_log` VALUES (903, 'admin', '批量删除供应商信息', '/bicycle/deletes', '\"6,5\";', '0:0:0:0:0:0:0:1', '2019-04-04 10:15:08');
 INSERT INTO `tb_log` VALUES (904, 'admin', '添加用户', '/user/insUser', '{\"uid\":null,\"eMail\":\"240252728@qq.com\",\"nickname\":\"qgy\",\"password\":\"248248\",\"sex\":\"1\",\"birthday\":\"2019-04-04\",\"address\":\"asdfasfsdf\",\"phone\":\"18066117806\",\"eCode\":null,\"status\":null,\"createTime\":null};', '0:0:0:0:0:0:0:1', '2019-04-04 10:25:18');
+INSERT INTO `tb_log` VALUES (905, 'admin', '删除菜单信息', '/sys/delMenuById/53', '53;', '127.0.0.1', '2019-04-05 05:07:37');
+INSERT INTO `tb_log` VALUES (906, 'admin', '删除菜单信息', '/sys/delMenuById/54', '54;', '127.0.0.1', '2019-04-05 05:07:42');
+INSERT INTO `tb_log` VALUES (907, 'admin', '删除菜单信息', '/sys/delMenuById/55', '55;', '127.0.0.1', '2019-04-05 05:07:49');
+INSERT INTO `tb_log` VALUES (908, 'admin', '删除菜单信息', '/sys/delMenuById/56', '56;', '127.0.0.1', '2019-04-05 05:07:55');
+INSERT INTO `tb_log` VALUES (909, 'admin', '删除菜单信息', '/sys/delMenuById/52', '52;', '127.0.0.1', '2019-04-05 05:08:00');
+INSERT INTO `tb_log` VALUES (910, 'admin', '删除菜单信息', '/sys/delMenuById/51', '51;', '127.0.0.1', '2019-04-05 05:08:04');
+INSERT INTO `tb_log` VALUES (911, 'admin', '更新供应商信息', '/bicycle/update', '{\"id\":4,\"name\":\"test5\",\"number\":9,\"price\":9,\"type\":2,\"status\":null,\"deflag\":null};', '127.0.0.1', '2019-04-05 05:38:47');
+INSERT INTO `tb_log` VALUES (912, 'admin', '根据ID删除用户', '/user/delUserByUid/36', '\"36\";', '127.0.0.1', '2019-04-05 05:41:20');
+INSERT INTO `tb_log` VALUES (913, 'admin', '更新用户信息', '/user/updUser', '{\"uid\":28,\"eMail\":\"123@qq.com\",\"nickname\":\"2113\",\"password\":null,\"sex\":\"1\",\"birthday\":1532584800000,\"address\":\"123123\",\"phone\":\"17693109997\",\"balance\":0,\"eCode\":null,\"status\":\"1\",\"createTime\":null};', '127.0.0.1', '2019-04-05 13:35:04');
+INSERT INTO `tb_log` VALUES (914, 'admin', '添加角色信息', '/sys/insRole', '{\"roleId\":null,\"roleName\":\"345\",\"roleRemark\":\"345\"};\"\";', '127.0.0.1', '2019-04-05 13:43:13');
+INSERT INTO `tb_log` VALUES (915, 'admin', '更新管理员信息', '/sys/updAdmin', '{\"id\":19,\"username\":\"qiugy\",\"password\":null,\"salt\":null,\"fullname\":\"仇高阳\",\"eMail\":\"240252729@qq.com\",\"sex\":\"0\",\"birthday\":\"2019-01-05\",\"address\":\"深刻的法律考试的风景\",\"phone\":\"18066117806\",\"roleId\":61,\"roleName\":null};', '127.0.0.1', '2019-04-05 13:54:01');
+INSERT INTO `tb_log` VALUES (916, 'admin', '更新管理员信息', '/sys/updAdmin', '{\"id\":19,\"username\":\"qiugy\",\"password\":null,\"salt\":null,\"fullname\":\"仇高阳\",\"eMail\":\"240252729@qq.com\",\"sex\":\"1\",\"birthday\":\"2019-01-05\",\"address\":\"深刻的法律考试的风景\",\"phone\":\"18066117806\",\"roleId\":61,\"roleName\":null};', '127.0.0.1', '2019-04-05 13:56:45');
+INSERT INTO `tb_log` VALUES (917, 'admin', '更新供应商信息', '/bicycle/update', '{\"id\":4,\"name\":\"test5\",\"number\":9,\"price\":9,\"type\":1,\"status\":null,\"deflag\":null};', '127.0.0.1', '2019-04-05 13:57:32');
+INSERT INTO `tb_log` VALUES (918, 'admin', '更新供应商信息', '/bicycle/update', '{\"id\":4,\"name\":\"test5\",\"number\":9,\"price\":9,\"type\":2,\"status\":null,\"deflag\":null};', '127.0.0.1', '2019-04-05 13:59:53');
+INSERT INTO `tb_log` VALUES (919, 'admin', '更新用户信息', '/user/updateUser', '{\"uid\":28,\"eMail\":\"123@qq.com\",\"nickname\":\"2113\",\"password\":null,\"sex\":\"0\",\"birthday\":1554422400000,\"address\":\"123123\",\"phone\":\"17693109997\",\"balance\":0,\"eCode\":null,\"status\":\"1\",\"createTime\":null};', '127.0.0.1', '2019-04-05 14:40:59');
+INSERT INTO `tb_log` VALUES (920, 'admin', '更新用户信息', '/user/updateUser', '{\"uid\":28,\"eMail\":\"123@qq.com\",\"nickname\":\"2113\",\"password\":null,\"sex\":\"0\",\"birthday\":1554422400000,\"address\":\"123123\",\"phone\":\"17693109997\",\"balance\":30,\"eCode\":null,\"status\":\"1\",\"createTime\":null};', '127.0.0.1', '2019-04-05 14:41:16');
+INSERT INTO `tb_log` VALUES (921, 'admin', '添加用户', '/user/insUser', '{\"uid\":null,\"eMail\":\"12379182379182@qq.com\",\"nickname\":\"阿斯顿发斯蒂芬\",\"password\":\"123456\",\"sex\":\"0\",\"birthday\":1554249600000,\"address\":\"水电费\",\"phone\":\"18066117806\",\"balance\":30,\"eCode\":null,\"status\":null,\"createTime\":null};', '127.0.0.1', '2019-04-05 14:45:12');
+INSERT INTO `tb_log` VALUES (922, 'admin', '维护菜单信息', '/sys/menuForm', '{\"menuId\":0,\"title\":\"租金管理模块\",\"icon\":\"\",\"href\":\"\",\"perms\":\"\",\"spread\":null,\"parentId\":null,\"sorting\":null,\"checked\":null,\"isOpen\":false};\"1\";', '127.0.0.1', '2019-04-05 16:36:29');
+INSERT INTO `tb_log` VALUES (923, 'admin', '维护菜单信息', '/sys/menuForm', '{\"menuId\":81,\"title\":\"单车使用费用统计\",\"icon\":\"\",\"href\":\"rentMoney/statisticsBicycleMoney\",\"perms\":\"\",\"spread\":null,\"parentId\":null,\"sorting\":null,\"checked\":null,\"isOpen\":false};\"1\";', '127.0.0.1', '2019-04-05 16:37:30');
+INSERT INTO `tb_log` VALUES (924, 'admin', '更新角色信息', '/sys/updRole', '{\"roleId\":1,\"roleName\":\"超级管理员\",\"roleRemark\":\"超级管理员\"};\"1,2,3,16,17,18,19,4,20,21,22,23,46,47,48,49,50,9,10,33,11,34,35,36,37,14,15,42,43,44,45,70,79,80,81,82\";', '127.0.0.1', '2019-04-05 16:38:05');
+INSERT INTO `tb_log` VALUES (925, 'admin', '添加供应商信息', '/bicycle/save', '{\"id\":null,\"name\":\"1111111\",\"number\":3333,\"price\":23,\"type\":null,\"count\":null,\"status\":null,\"deflag\":null};', '127.0.0.1', '2019-04-05 18:03:28');
+INSERT INTO `tb_log` VALUES (926, 'admin', '添加供应商信息', '/bicycle/save', '{\"id\":null,\"name\":\"te\",\"number\":3333,\"price\":1,\"type\":null,\"count\":null,\"status\":null,\"deflag\":null};', '127.0.0.1', '2019-04-05 18:05:10');
+INSERT INTO `tb_log` VALUES (927, 'admin', '添加供应商信息', '/bicycle/save', '{\"id\":null,\"name\":\"1111111\",\"number\":12314,\"price\":2,\"type\":null,\"count\":null,\"status\":null,\"deflag\":null};', '127.0.0.1', '2019-04-05 18:08:33');
+INSERT INTO `tb_log` VALUES (928, 'admin', '添加供应商信息', '/bicycle/save', '{\"id\":null,\"name\":\"1111111\",\"number\":12314,\"price\":234,\"type\":2,\"count\":4234,\"status\":null,\"deflag\":null};', '127.0.0.1', '2019-04-05 18:13:43');
+INSERT INTO `tb_log` VALUES (929, 'admin', '删除菜单信息', '/sys/delMenuById/79', '79;', '127.0.0.1', '2019-04-05 18:31:28');
 
 -- ----------------------------
 -- Table structure for tb_menus
@@ -402,7 +405,7 @@ CREATE TABLE `tb_menus`  (
   `parent_id` bigint(20) NOT NULL COMMENT '父节点',
   `sorting` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 83 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tb_menus
@@ -438,15 +441,10 @@ INSERT INTO `tb_menus` VALUES (47, '查看', NULL, NULL, 'sys:menu:list', 'false
 INSERT INTO `tb_menus` VALUES (48, '新增', NULL, NULL, 'sys:menu:save', 'false', 46, NULL);
 INSERT INTO `tb_menus` VALUES (49, '修改', NULL, NULL, 'sys:menu:update', 'false', 46, NULL);
 INSERT INTO `tb_menus` VALUES (50, '删除', NULL, NULL, 'sys:menu:delete', 'false', 46, NULL);
-INSERT INTO `tb_menus` VALUES (51, '轮播管理', '', '', '', 'false', 0, 997);
-INSERT INTO `tb_menus` VALUES (52, '轮播管理', '', 'carousel/carouselList', '', 'false', 51, NULL);
-INSERT INTO `tb_menus` VALUES (53, '查看', '', '', 'carousel:carousel:list', 'false', 52, NULL);
-INSERT INTO `tb_menus` VALUES (54, '删除', '', '', 'carousel:carousel:delete', 'false', 52, NULL);
-INSERT INTO `tb_menus` VALUES (55, '修改', '', '', 'carousel:carousel:update', 'false', 52, NULL);
-INSERT INTO `tb_menus` VALUES (56, '新增', '', '', 'carousel:carousel:save', 'false', 52, NULL);
 INSERT INTO `tb_menus` VALUES (70, '销售管理', '', '', '', 'false', 0, NULL);
-INSERT INTO `tb_menus` VALUES (79, '销售额排行', '', 'saleOrder/statistics', '', 'false', 70, NULL);
 INSERT INTO `tb_menus` VALUES (80, '单车信息管理', '', 'bicycle/bicycleList', '', 'false', 0, NULL);
+INSERT INTO `tb_menus` VALUES (81, '租金管理模块', '', '', '', 'false', 0, NULL);
+INSERT INTO `tb_menus` VALUES (82, '单车使用费用统计', '', 'rentMoney/statisticsBicycleMoney', '', 'false', 81, NULL);
 
 -- ----------------------------
 -- Table structure for tb_order
@@ -463,68 +461,16 @@ CREATE TABLE `tb_order`  (
   `dflag` tinyint(2) UNSIGNED ZEROFILL NOT NULL DEFAULT 00 COMMENT '删除标识',
   `time` int(7) NOT NULL COMMENT '单车租用的时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tb_order
 -- ----------------------------
-INSERT INTO `tb_order` VALUES (1, 2, 1, NULL, NULL, 396, 0, 00, 99);
-INSERT INTO `tb_order` VALUES (2, 2, 1, NULL, NULL, 396, 0, 00, 99);
-INSERT INTO `tb_order` VALUES (3, 2, 1, NULL, NULL, 396, 0, 00, 99);
-INSERT INTO `tb_order` VALUES (4, 2, 1, NULL, NULL, 220, 2, 00, 55);
-
--- ----------------------------
--- Table structure for tb_purchase_order
--- ----------------------------
-DROP TABLE IF EXISTS `tb_purchase_order`;
-CREATE TABLE `tb_purchase_order`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `number` int(11) NULL DEFAULT NULL,
-  `type` int(11) NOT NULL,
-  `price` decimal(10, 2) NULL DEFAULT NULL,
-  `amount` int(11) NULL DEFAULT NULL,
-  `money` decimal(10, 2) NULL DEFAULT NULL,
-  `home` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `supplier` int(11) NULL DEFAULT NULL COMMENT '供应商的id',
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `batch_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '批号',
-  `approval_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '批准文号',
-  `sticks` int(11) NULL DEFAULT NULL COMMENT '经手人的id',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of tb_purchase_order
--- ----------------------------
-INSERT INTO `tb_purchase_order` VALUES (7, 123, 1, 0.03, 30, 90.00, '中国', 3, 'test', 'test3', 'test3', 19);
-INSERT INTO `tb_purchase_order` VALUES (8, 122, 4, 20.00, 90, 2700.00, '中国', 3, 'test', 'test3', 'test3', 1);
-
--- ----------------------------
--- Table structure for tb_purchase_return_order
--- ----------------------------
-DROP TABLE IF EXISTS `tb_purchase_return_order`;
-CREATE TABLE `tb_purchase_return_order`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `number` int(11) NULL DEFAULT NULL,
-  `type` int(11) NOT NULL,
-  `price` decimal(10, 2) NULL DEFAULT NULL,
-  `amount` int(11) NULL DEFAULT NULL,
-  `money` decimal(10, 2) NULL DEFAULT NULL,
-  `home` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `supplier` int(11) NULL DEFAULT NULL COMMENT '供应商的id',
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `batch_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '批号',
-  `approval_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '批准文号',
-  `sticks` int(11) NULL DEFAULT NULL COMMENT '经手人的id',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of tb_purchase_return_order
--- ----------------------------
-INSERT INTO `tb_purchase_return_order` VALUES (1, 1, 1, 0.03, 90, NULL, '中国', 3, 'test', 'test1', 'test1', 1);
-INSERT INTO `tb_purchase_return_order` VALUES (2, 1, 1, 0.03, 90, NULL, '中国', 3, 'test', 'test1', 'test1', 1);
-INSERT INTO `tb_purchase_return_order` VALUES (3, 122, 4, 40.00, 30, NULL, 'china', 3, '退了30个', 'test3', 'test3', 1);
+INSERT INTO `tb_order` VALUES (1, 2, 2, NULL, NULL, 396, 0, 00, 99);
+INSERT INTO `tb_order` VALUES (2, 2, 2, NULL, NULL, 396, 0, 00, 99);
+INSERT INTO `tb_order` VALUES (3, 2, 2, NULL, NULL, 396, 0, 00, 99);
+INSERT INTO `tb_order` VALUES (4, 2, 2, NULL, NULL, 220, 2, 00, 55);
+INSERT INTO `tb_order` VALUES (5, 31, 4, NULL, NULL, 2592, 1, 00, 324);
 
 -- ----------------------------
 -- Table structure for tb_roles
@@ -535,13 +481,14 @@ CREATE TABLE `tb_roles`  (
   `role_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色名',
   `role_remark` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`role_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 63 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tb_roles
 -- ----------------------------
 INSERT INTO `tb_roles` VALUES (1, '超级管理员', '超级管理员');
 INSERT INTO `tb_roles` VALUES (61, '管理员', '普通管理员');
+INSERT INTO `tb_roles` VALUES (62, '345', '345');
 
 -- ----------------------------
 -- Table structure for tb_roles_menus
@@ -590,15 +537,10 @@ INSERT INTO `tb_roles_menus` VALUES (47, 1);
 INSERT INTO `tb_roles_menus` VALUES (48, 1);
 INSERT INTO `tb_roles_menus` VALUES (49, 1);
 INSERT INTO `tb_roles_menus` VALUES (50, 1);
-INSERT INTO `tb_roles_menus` VALUES (51, 1);
-INSERT INTO `tb_roles_menus` VALUES (52, 1);
-INSERT INTO `tb_roles_menus` VALUES (53, 1);
-INSERT INTO `tb_roles_menus` VALUES (54, 1);
-INSERT INTO `tb_roles_menus` VALUES (55, 1);
-INSERT INTO `tb_roles_menus` VALUES (56, 1);
 INSERT INTO `tb_roles_menus` VALUES (70, 1);
-INSERT INTO `tb_roles_menus` VALUES (79, 1);
 INSERT INTO `tb_roles_menus` VALUES (80, 1);
+INSERT INTO `tb_roles_menus` VALUES (81, 1);
+INSERT INTO `tb_roles_menus` VALUES (82, 1);
 INSERT INTO `tb_roles_menus` VALUES (1, 61);
 INSERT INTO `tb_roles_menus` VALUES (9, 61);
 INSERT INTO `tb_roles_menus` VALUES (10, 61);
@@ -615,53 +557,7 @@ INSERT INTO `tb_roles_menus` VALUES (43, 61);
 INSERT INTO `tb_roles_menus` VALUES (44, 61);
 INSERT INTO `tb_roles_menus` VALUES (45, 61);
 INSERT INTO `tb_roles_menus` VALUES (70, 61);
-INSERT INTO `tb_roles_menus` VALUES (79, 61);
 INSERT INTO `tb_roles_menus` VALUES (80, 61);
-
--- ----------------------------
--- Table structure for tb_sale_order
--- ----------------------------
-DROP TABLE IF EXISTS `tb_sale_order`;
-CREATE TABLE `tb_sale_order`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `number` int(11) NULL DEFAULT NULL,
-  `type` int(11) NULL DEFAULT NULL,
-  `home` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `supplier_id` int(11) NULL DEFAULT NULL COMMENT '供应商id',
-  `sticks` int(11) NULL DEFAULT NULL COMMENT '经手员工id',
-  `batch_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `approval_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '批准文号',
-  `customer_id` int(11) NULL DEFAULT NULL COMMENT '购买客户的id',
-  `amount` int(11) NULL DEFAULT NULL COMMENT '购买的数量',
-  `sale_price` decimal(10, 2) NULL DEFAULT NULL COMMENT '销售价格',
-  `real_price` decimal(10, 2) NULL DEFAULT NULL COMMENT '实际价格',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of tb_sale_order
--- ----------------------------
-INSERT INTO `tb_sale_order` VALUES (1, 1, 1, '中国', 3, 1, 'test3', 'test3', 1, 90, 30.00, 60.00);
-INSERT INTO `tb_sale_order` VALUES (3, 123, 1, 'china', 3, 1, 'test3', 'test2', 1, 30, 30.00, 60.00);
-
--- ----------------------------
--- Table structure for tb_sale_return_order
--- ----------------------------
-DROP TABLE IF EXISTS `tb_sale_return_order`;
-CREATE TABLE `tb_sale_return_order`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `number` int(11) NULL DEFAULT NULL,
-  `type` int(11) NULL DEFAULT NULL,
-  `home` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `supplier_id` int(11) NULL DEFAULT NULL COMMENT '供应商id',
-  `sticks` int(11) NULL DEFAULT NULL COMMENT '经手员工id',
-  `batch_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `approval_number` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '批准文号',
-  `customer_id` int(11) NULL DEFAULT NULL COMMENT '购买客户的id',
-  `amount` int(11) NULL DEFAULT NULL COMMENT '购买的数量',
-  `sale_price` decimal(10, 2) NULL DEFAULT NULL COMMENT '销售价格',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for tb_search
@@ -673,50 +569,6 @@ CREATE TABLE `tb_search`  (
   `sale_money` decimal(10, 2) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Table structure for tb_stock
--- ----------------------------
-DROP TABLE IF EXISTS `tb_stock`;
-CREATE TABLE `tb_stock`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goods_id` int(11) NOT NULL COMMENT '货物的id',
-  `price` decimal(10, 2) NOT NULL COMMENT '商品的价格',
-  `amount` decimal(10, 2) NOT NULL COMMENT '商品的数量',
-  `cordon` decimal(10, 2) UNSIGNED NULL DEFAULT 0.00 COMMENT '库存的警戒线',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `goodsid`(`goods_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of tb_stock
--- ----------------------------
-INSERT INTO `tb_stock` VALUES (1, 3, 15.00, 1.00, 0.00);
-INSERT INTO `tb_stock` VALUES (2, 4, 40.00, 60.00, 80.00);
-
--- ----------------------------
--- Table structure for tb_supplier
--- ----------------------------
-DROP TABLE IF EXISTS `tb_supplier`;
-CREATE TABLE `tb_supplier`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `post_code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮编',
-  `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `contact` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系人',
-  `contact_phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系人电话',
-  `mail` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `bank` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '开户银行',
-  `account` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '账户',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of tb_supplier
--- ----------------------------
-INSERT INTO `tb_supplier` VALUES (3, '供应商test1', '深刻的法律考试的风景', '23623', '18066117806', 'test1', '18066117806', '240250@qq.com', '中国银行', '240252729@qq.com');
-INSERT INTO `tb_supplier` VALUES (4, '供应商test2', '双方都卡了水电费', '23623', '18066117806', 'test1', '18066117806', '240250@qq.com', '中国银行', 'test1');
 
 -- ----------------------------
 -- Table structure for tb_test
@@ -741,20 +593,24 @@ CREATE TABLE `tb_users`  (
   `birthday` date NULL DEFAULT NULL,
   `address` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `balance` int(10) NOT NULL DEFAULT 0,
   `e_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `status` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '0:未激活，1，正常，2，禁用',
   `create_time` datetime(0) NOT NULL,
   PRIMARY KEY (`uid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tb_users
 -- ----------------------------
-INSERT INTO `tb_users` VALUES (27, 'isduxd@qq.com', 'test', '96e79218965eb72c92a549dd5a330112', '0', '2018-03-25', '北京通州科创十四街区', '17693109923', 'b3f28566dac54f86bd4f4c2ce36e23d8019', '1', '2019-04-04 19:21:31');
-INSERT INTO `tb_users` VALUES (28, '123@qq.com', '2113', '96e79218965eb72c92a549dd5a330112', '1', '2018-07-26', '123123', '17693109997', 'c6411671821c43ca926c032e51ded16a897', '1', '2018-07-27 09:59:16');
-INSERT INTO `tb_users` VALUES (29, 'sdf@163.com', '123123', '96e79218965eb72c92a549dd5a330112', '2', '2018-07-27', '123123', '17111111111', '92197e8f8a5647ae8be96fe2db555575147', '1', '2018-07-27 14:23:55');
-INSERT INTO `tb_users` VALUES (30, '240252729@qq.com', 'test4', '0e7b3b8e27087ad2566ac12ea55d1074', '1', '2019-01-05', '深刻的法律考试的风景', '18066117806', 'a89467c8770a4705b2b6cdea4b9c5fbb931', '1', '2019-01-05 17:29:58');
-INSERT INTO `tb_users` VALUES (31, 'test', 'testtest', 'tst', '2', '2019-01-17', 'test', '123456', 'test', '1', '2019-04-04 19:55:13');
-INSERT INTO `tb_users` VALUES (33, '240252728@qq.com', 'qgy', 'c416ce74480bc24df1ca4e44dcd57e0a', '1', '2019-04-04', 'asdfasfsdf', '18066117806', '8e3aba5f7839480da7bbbedbfb191648624', '1', '2019-04-04 10:25:19');
+INSERT INTO `tb_users` VALUES (27, 'isduxd@qq.com', 'test', '96e79218965eb72c92a549dd5a330112', '0', '2018-03-25', '北京通州科创十四街区', '17693109923', 0, 'b3f28566dac54f86bd4f4c2ce36e23d8019', '1', '2019-04-04 19:21:31');
+INSERT INTO `tb_users` VALUES (28, '123@qq.com', '2113', '96e79218965eb72c92a549dd5a330112', '0', '2019-04-05', '123123', '17693109997', 30, 'c6411671821c43ca926c032e51ded16a897', '1', '2018-07-27 09:59:16');
+INSERT INTO `tb_users` VALUES (29, 'sdf@163.com', '123123', '96e79218965eb72c92a549dd5a330112', '2', '2018-07-27', '123123', '17111111111', 0, '92197e8f8a5647ae8be96fe2db555575147', '1', '2018-07-27 14:23:55');
+INSERT INTO `tb_users` VALUES (30, '240252729@qq.com', 'test4', '0e7b3b8e27087ad2566ac12ea55d1074', '1', '2019-01-05', '深刻的法律考试的风景', '18066117806', 0, 'a89467c8770a4705b2b6cdea4b9c5fbb931', '1', '2019-01-05 17:29:58');
+INSERT INTO `tb_users` VALUES (31, 'test', 'testtest', 'test', '2', '2019-01-17', 'test4', '123456', -2592, 'test', '1', '2019-04-05 02:20:35');
+INSERT INTO `tb_users` VALUES (33, '240252728@qq.com', 'qgy', 'c416ce74480bc24df1ca4e44dcd57e0a', '1', '2019-04-04', 'asdfasfsdf', '18066117806', 0, '8e3aba5f7839480da7bbbedbfb191648624', '1', '2019-04-04 10:25:19');
+INSERT INTO `tb_users` VALUES (34, 'asdfasd@qq.com', 'test1', '123', '2', NULL, 'sdfasdf', '123', 0, NULL, NULL, '2019-04-05 04:57:20');
+INSERT INTO `tb_users` VALUES (35, 'asdfsdf@qq.com', 'test2', '1234', '2', NULL, 'sdfsdfsdf', '1234', 0, NULL, NULL, '2019-04-05 04:58:52');
+INSERT INTO `tb_users` VALUES (37, '12379182379182@qq.com', '阿斯顿发斯蒂芬', 'e10adc3949ba59abbe56e057f20f883e', '0', '2019-04-03', '水电费', '18066117806', 30, '2bde8f884bb2431bb559536ec984b4bb805', '1', '2019-04-05 14:45:15');
 
 SET FOREIGN_KEY_CHECKS = 1;
