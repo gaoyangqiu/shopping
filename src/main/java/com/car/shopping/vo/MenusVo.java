@@ -30,4 +30,12 @@ public class MenusVo {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public MenusVo() {
+    }
+
+    public MenusVo(String name, String url) {
+        this.name = name;
+        this.url = url;
+    }
 }
