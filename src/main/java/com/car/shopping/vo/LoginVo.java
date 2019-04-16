@@ -7,7 +7,7 @@ import lombok.Data;
  * @Date: 2019/4/4 12:40
  * @Version: 1.0
  */
-@Data
+
 public class LoginVo {
 
     private String phone;
@@ -15,4 +15,28 @@ public class LoginVo {
     private String password;
 
     private String vcode;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getVcode() {
+        return vcode;
+    }
+
+    public void setVcode(String vcode) {
+        this.vcode = vcode;
+    }
 }

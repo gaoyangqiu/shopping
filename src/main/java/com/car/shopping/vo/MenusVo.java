@@ -8,11 +8,26 @@ import lombok.Data;
  * @Date: 2019/4/4 15:17
  * @Version: 1.0
  */
-@Data
-@AllArgsConstructor
+
 public class MenusVo {
 
     private String name;
 
     private String url;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

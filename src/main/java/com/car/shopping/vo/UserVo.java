@@ -8,7 +8,17 @@ import lombok.Data;
  * @Date: 2019/4/5 1:39
  * @Description:
  */
-@Data
+
 public class UserVo extends TbUsers {
     private Integer balance;
+
+    @Override
+    public Integer getBalance() {
+        return balance;
+    }
+
+    @Override
+    public void setBalance(Integer balance) {
+        this.balance = balance;
+    }
 }
