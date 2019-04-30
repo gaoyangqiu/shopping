@@ -1,9 +1,6 @@
 package com.car.shopping.service.Impl;
 
-import com.car.shopping.dao.TbAccountMapper;
 import com.car.shopping.dao.TbUsersMapper;
-import com.car.shopping.entity.TbAccount;
-import com.car.shopping.entity.TbAccountExample;
 import com.car.shopping.entity.TbUsers;
 import com.car.shopping.entity.TbUsersExample;
 import com.car.shopping.service.UserService;
@@ -12,7 +9,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 import java.util.List;
@@ -29,8 +25,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private TbUsersMapper usersMapper;
 
-    @Autowired
-    private TbAccountMapper accountMapper;
+/*    @Autowired
+    private TbAccountMapper accountMapper;*/
     @Override
     public TbUsers findUserByPhoneAndPassword(LoginVo loginVo) {
         TbUsersExample example=new TbUsersExample();
@@ -71,5 +67,12 @@ public class UserServiceImpl implements UserService {
         users.setCreateTime(new Date());
         users.setSex("2");
         usersMapper.insertSelective(users);
+    }
+
+    @Override
+    public void updateBalance(Integer balance,Long userId) {
+        TbUsers user=usersMapper.selectByPrimaryKey(userId);
+        user.setBalance(user.getBalance()+balance);
+        usersMapper.updateByPrimaryKey(user);
     }
 }

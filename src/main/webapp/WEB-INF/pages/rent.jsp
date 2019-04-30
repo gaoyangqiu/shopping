@@ -1,3 +1,4 @@
+<%@ page import="com.car.shopping.entity.TbUsers" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/static/include/taglib.jsp"%>
@@ -12,6 +13,11 @@
 </head>
 <body>
 <table class="layui-hide" id="test" lay-filter="test"></table>
+<%
+    TbUsers username = (TbUsers)session.getAttribute("user");
+    Integer balance=username.getBalance();
+%>
+<input type="hidden" id="balance" value="<%=balance%>" hidden>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xm" lay-event="rent">租用</a>
 </script>
@@ -20,23 +26,29 @@ $(function () {
 
 
 
-    layui.use('table', function(){
+    layui.use(['table', 'form'], function(){
 
         var table = layui.table;
+        var layer = layui.layer,
+            $ = layui.jquery,
+            form = layui.form,laydate = layui.laydate;
 
         //方法级渲染
         table.render({
             elem: '#test'
             ,url: '/rentList'
+            ,cellMinWidth: 80
+            ,limit:10//每页默认数
+            ,limits:[10,20,30,40]
             ,cols: [
                 [
                     {checkbox: true, fixed: true}
                     ,{field:'id', title: 'ID', sort: true, fixed: true}
-                    ,{field:'name', title: '单车名称'}
-                    ,{field:'number', title: '单车数量', sort: true}
+                    ,{field:'number', title: '单车编号'}
+                    ,{field:'typeName', title: '单车类型', sort: true}
                     ,{field:'price', title: '单车价格'}
-                    ,{field:'typeName', title: '单车类型'}
-/*                    ,{field:'statusName', title: '单车状态', sort: true}*/
+                    ,{field:'placementName', title: '单车存放点'}
+                    ,{field:'statusName', title: '单车状态', sort: true}
                     ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
                 ]
             ]
@@ -45,9 +57,11 @@ $(function () {
         });
         //监听工具条
         table.on('tool(test)', function(obj){
+            var balance=$("#balance").val();
             var data = obj.data;
+            $("#bicycleId").val(data.id);
             console.info(data)
-            if(obj.event === 'rent'){
+            if(obj.event === 'rent'&&balance>0){
                 layer.open({
                     type: 1
                     ,title: "确认租赁" //不显示标题栏
@@ -55,37 +69,28 @@ $(function () {
                     ,area: '600px;'
                     ,shade: 0.8
                     ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
-                    ,btn: ['确认租用', '残忍拒绝']
-                    ,btnAlign: 'c'
+/*                    ,btn: ['确认租用', '残忍拒绝']
+                    ,btnAlign: 'c'*/
                     ,moveType: 1 //拖拽模式，0或者1
-                    ,content:'<div class="layui-form-item">\n' +
-                    '    <label class="layui-form-label">租赁时间</label>\n' +
-                    '    <div class="layui-input-block">\n' +
-                    '        <input type="text" id="rentTime" name="title" lay-verify="title" autocomplete="off" placeholder="请输入租赁时间" class="layui-input">' +
-                    '    </div>\n' +
-                    '</div>'
+                    ,content:$("#add-main")
                     ,yes: function(){
-                        var time=$('#rentTime').val();
-                        console.info(time);
-                        var id=data.id;
-                        $.ajax({
-                            type: "post",
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            data:JSON.stringify({
-                                "time":time,
-                                "bicycleId":id,
-                            }),
-                            url: "/createRent",
-                            success: function (result) {
-                                if (result.code != "0") {
-                                    alert(result.errorMessage);
-                                } else {
-                                    alert("创建租赁订单成功");
-                                    layer.closeAll();
-                                }
-                            }
-                        });
+
+                    }
+                });
+            }else{
+                layer.open({
+                    type: 1
+                    ,title: "金额不足请充值" //不显示标题栏
+                    ,closeBtn: false
+                    ,area: '600px;'
+                    ,shade: 0.8
+                    ,id: 'LAY_layuimoney' //设定一个id，防止重复弹出
+                    /*                    ,btn: ['确认租用', '残忍拒绝']
+                                        ,btnAlign: 'c'*/
+                    ,moveType: 1 //拖拽模式，0或者1
+                    ,content:$("#add-money")
+                    ,yes: function(){
+
                     }
                 });
             }
@@ -95,6 +100,106 @@ $(function () {
             console.log(obj)
         });
 
+        laydate.render({
+            elem: '#startTime'
+
+            ,type: 'datetime'
+        });
+        laydate.render({
+            elem: '#endTime'
+            ,type: 'datetime'
+        });
+/*        //提交监听事件
+        form.on('submit(save)', function (data) {
+
+            //alert(JSON.stringify(params))
+            submit($,JSON.stringify(params1));
+            return false;
+        })*/
+        var obj = document.getElementById('closeBtn');
+        obj.addEventListener('click', function cancel(){
+            CloseWin();
+        });
+        var obj1 = document.getElementById('closeMoney');
+        obj1.addEventListener('click', function cancel(){
+            CloseWin();
+        });
+
+
+        $('#weixin').on('click', function(){
+            var balance=$("#money").val();
+            if (""==balance||null==balance){
+                alert("金额为空");
+            }
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:"/updateBalance",
+                data:{ "balance":balance}
+                ,
+                async: true,
+                success: function(data) {
+                    if(data.code == 0){
+                        CloseWin();
+                        alert("充值成功")
+                    }else {
+                        alert(data.msg)
+                    }
+                },
+            });
+        });
+        $('#zhifubao').on('click', function(){
+            var balance=$("#money").val();
+            if (""==balance||null==balance){
+                alert("金额为空");
+            }
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:"/updateBalance",
+                data:{ "balance":balance}
+                ,
+                async: true,
+                success: function(data) {
+                    if(data.code == 0){
+                        CloseWin();
+                        alert("充值成功")
+                    }else {
+                        alert(data.msg)
+                    }
+                }
+            });
+        });
+
+        $('#submit').on('click',function (){
+            var startTime = $("#startTime").val();
+            var endTime = $("#endTime").val();
+            var bicycleId= $("#bicycleId").val();
+            var params1 = {
+                "endTime":endTime,
+                "startTime":startTime,
+                "bicycleId":bicycleId
+            };
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:"/createRent",
+                data:JSON.stringify(params1)
+                ,
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data) {
+                    if(data.code == 0){
+                        CloseWin();
+                        alert("租赁成功")
+                    }else {
+                        alert(data.msg)
+                    }
+                },
+            });
+        }
+        )
     });
 
 
@@ -120,13 +225,56 @@ $(function () {
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });
+
 })
 
-
-
+//关闭页面
+function CloseWin(){
+  /*  parent.location.reload(); // 父页面刷新
+    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+    parent.layer.close(index); //再执行关闭*/
+    parent.location.reload(); // 父页面刷新
+    layer.closeAll();
+}
 
 
 </script>
+<div id="add-main" style="display: none;">
+    <input type="text" class="layui-input" id="bicycleId"  style="display:none" >
+        <div class="layui-form-item center" >
+            <label class="layui-form-label" style="width: 100px" >开始租用时间</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="startTime" lay-verify="dateTime"  placeholder="yyyy-MM-dd" autocomplete="off">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">结束租用时间</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="endTime" lay-verify="dateTime"  placeholder="yyyy-MM-dd" autocomplete="off">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" id="submit" >立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary" id="closeBtn" >关闭</button>
+            </div>
+        </div>
+</div>
 
+<div id="add-money" style="display: none;">
+        <div class="layui-form-item center" >
+            <label class="layui-form-label" >请输入充值金额</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" id="money" >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="saveMoney" id="weixin">微信充值</button>
+                <button class="layui-btn" lay-submit lay-filter="saveMoney" id="zhifubao">支付宝充值</button>
+                <button type="reset" class="layui-btn layui-btn-primary" id="closeMoney" >考虑一下</button>
+            </div>
+        </div>
+</div>
 </body>
 </html>

@@ -3,13 +3,13 @@ package com.car.shopping.entity;
 public class TbBicycle {
     private Integer id;
 
-    private String name;
+    private Integer number;
 
-    private Long number;
-
-    private Long price;
+    private Integer price;
 
     private Integer type;
+
+    private Integer placement;
 
     private Integer status;
 
@@ -23,27 +23,19 @@ public class TbBicycle {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public Long getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(Long number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
-    public Long getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -53,6 +45,14 @@ public class TbBicycle {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Integer getPlacement() {
+        return placement;
+    }
+
+    public void setPlacement(Integer placement) {
+        this.placement = placement;
     }
 
     public Integer getStatus() {

@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
  * @Date: 2019/3/16 12:05
  * @Version: 1.0
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class RestResult {
     /**
      * 成功或者失败的code错误码
@@ -27,7 +25,54 @@ public class RestResult {
     private Object errorMessage;
 
 
+    private Long count=0L;
+
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
+
+    public Object getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(Object errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
+    }
+
     public static RestResult success(){
-        return new RestResult(ErrorMessage.SUCCESS.getCode(),null,null);
+        return new RestResult(ErrorMessage.SUCCESS.getCode(),null,null,null);
+
+
+    }
+
+    public RestResult(String code, Object data, Object errorMessage, Long count) {
+        this.code = code;
+        this.data = data;
+        this.errorMessage = errorMessage;
+        this.count = count;
+    }
+
+    public RestResult() {
     }
 }

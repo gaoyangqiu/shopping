@@ -70,7 +70,7 @@ public class LoginController {
         MenusVo menusVo1=new MenusVo("个人信息","/userInfo");
         MenusVo menusVo2=new MenusVo("租赁","/rent");
         MenusVo menusVo3=new MenusVo("归还","/return");
-        MenusVo menusVo4=new MenusVo("订单","/order");
+        MenusVo menusVo4=new MenusVo("历史记录","/order");
         List<MenusVo> menusVoList=Lists.newArrayList(menusVo1,menusVo2,menusVo3,menusVo4);
         return menusVoList;
     }

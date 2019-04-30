@@ -3,120 +3,44 @@
 <mapper namespace="com.car.shopping.dao.TbBicycleMapper" >
   <resultMap id="BaseResultMap" type="com.car.shopping.entity.TbBicycle" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="number" property="number" jdbcType="BIGINT" />
-    <result column="price" property="price" jdbcType="BIGINT" />
-    <result column="type" property="type" jdbcType="TINYINT" />
-    <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="deflag" property="deflag" jdbcType="TINYINT" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="placement" property="placement" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="deflag" property="deflag" jdbcType="INTEGER" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <sql id="Base_Column_List" >
-    id, name, number, price, type, status, deflag
+    id, number, price, type, placement, status, deflag
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.car.shopping.entity.TbBicycleExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from tb_bicycle
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from tb_bicycle
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="getRentListAll" resultType="com.car.shopping.entity.TbBicycle">
+        select
+        <include refid="Base_Column_List" />
+        from tb_bicycle
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from tb_bicycle
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.car.shopping.entity.TbBicycleExample" >
-    delete from tb_bicycle
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
   <insert id="insert" parameterType="com.car.shopping.entity.TbBicycle" >
-    insert into tb_bicycle (id, name, number, 
-      price, type, status, 
+    insert into tb_bicycle (id, number, price, 
+      type, placement, status, 
       deflag)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=BIGINT}, 
-      #{price,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
-      #{deflag,jdbcType=TINYINT})
+    values (#{id,jdbcType=INTEGER}, #{number,jdbcType=INTEGER}, #{price,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{placement,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{deflag,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.car.shopping.entity.TbBicycle" >
     insert into tb_bicycle
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
-      </if>
-      <if test="name != null" >
-        name,
       </if>
       <if test="number != null" >
         number,
@@ -126,6 +50,9 @@
       </if>
       <if test="type != null" >
         type,
+      </if>
+      <if test="placement != null" >
+        placement,
       </if>
       <if test="status != null" >
         status,
@@ -138,111 +65,58 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
       <if test="number != null" >
-        #{number,jdbcType=BIGINT},
+        #{number,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
-        #{price,jdbcType=BIGINT},
+        #{price,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
-        #{type,jdbcType=TINYINT},
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="placement != null" >
+        #{placement,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=TINYINT},
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="deflag != null" >
-        #{deflag,jdbcType=TINYINT},
+        #{deflag,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.car.shopping.entity.TbBicycleExample" resultType="java.lang.Integer" >
-    select count(*) from tb_bicycle
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-    <select id="getRentListAll" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from tb_bicycle
-    </select>
-    <update id="updateByExampleSelective" parameterType="map" >
-    update tb_bicycle
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.number != null" >
-        number = #{record.number,jdbcType=BIGINT},
-      </if>
-      <if test="record.price != null" >
-        price = #{record.price,jdbcType=BIGINT},
-      </if>
-      <if test="record.type != null" >
-        type = #{record.type,jdbcType=TINYINT},
-      </if>
-      <if test="record.status != null" >
-        status = #{record.status,jdbcType=TINYINT},
-      </if>
-      <if test="record.deflag != null" >
-        deflag = #{record.deflag,jdbcType=TINYINT},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update tb_bicycle
-    set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      number = #{record.number,jdbcType=BIGINT},
-      price = #{record.price,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=TINYINT},
-      status = #{record.status,jdbcType=TINYINT},
-      deflag = #{record.deflag,jdbcType=TINYINT}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.car.shopping.entity.TbBicycle" >
     update tb_bicycle
     <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
       <if test="number != null" >
-        number = #{number,jdbcType=BIGINT},
+        number = #{number,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
-        price = #{price,jdbcType=BIGINT},
+        price = #{price,jdbcType=INTEGER},
       </if>
       <if test="type != null" >
-        type = #{type,jdbcType=TINYINT},
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="placement != null" >
+        placement = #{placement,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=TINYINT},
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="deflag != null" >
-        deflag = #{deflag,jdbcType=TINYINT},
+        deflag = #{deflag,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.car.shopping.entity.TbBicycle" >
     update tb_bicycle
-    set name = #{name,jdbcType=VARCHAR},
-      number = #{number,jdbcType=BIGINT},
-      price = #{price,jdbcType=BIGINT},
-      type = #{type,jdbcType=TINYINT},
-      status = #{status,jdbcType=TINYINT},
-      deflag = #{deflag,jdbcType=TINYINT}
+    set number = #{number,jdbcType=INTEGER},
+      price = #{price,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      placement = #{placement,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      deflag = #{deflag,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

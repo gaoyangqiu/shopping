@@ -48,4 +48,15 @@ public class UserController {
         return RestResult.success();
     }
 
+
+    @RequestMapping("/updateBalance")
+    @ResponseBody
+    public RestResult updateBalance(Integer balance, HttpSession session) {
+        TbUsers user= (TbUsers) session.getAttribute("user");
+        userService.updateBalance(balance,user.getUid());
+        user.setBalance(user.getBalance()+balance);
+        session.setAttribute("user",user);
+        return RestResult.success();
+    }
+
 }

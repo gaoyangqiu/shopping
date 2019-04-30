@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -33,13 +34,13 @@ public class RentController {
 
     @ResponseBody
     @RequestMapping("/rentList")
-    public List<BicycleVo> getRentList(){
-        return rentService.getRentListAll();
+    public RestResult getRentList(Integer page,Integer limit){
+        return rentService.getRentListAll( page,limit);
     }
 
     @ResponseBody
     @RequestMapping("/createRent")
-    public RestResult createRent(@RequestBody CreateRentVo rentVo, HttpSession session){
+    public RestResult createRent(@RequestBody CreateRentVo rentVo, HttpSession session) throws ParseException {
         TbUsers user=(TbUsers)session.getAttribute("user");
         Long userId=user.getUid();
         rentVo.setUserId(userId.intValue());

@@ -1,10 +1,11 @@
 package com.car.shopping.service;
 
 import com.car.shopping.common.RestResult;
-import com.car.shopping.entity.TbBicycle;
+import com.car.shopping.common.ResultUtil;
 import com.car.shopping.vo.BicycleVo;
 import com.car.shopping.vo.CreateRentVo;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  * @Description:
  */
 public interface RentService {
-    List<BicycleVo> getRentListAll();
+    RestResult getRentListAll(Integer page, Integer limit);
 
-    RestResult createRent(CreateRentVo rentVo);
+    RestResult createRent(CreateRentVo rentVo) throws ParseException;
 }

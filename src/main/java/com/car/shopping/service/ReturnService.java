@@ -1,5 +1,7 @@
 package com.car.shopping.service;
 
+import com.car.shopping.common.RestResult;
+import com.car.shopping.entity.TbPlacement;
 import com.car.shopping.vo.OrderVo;
 
 import java.util.List;
@@ -10,7 +12,10 @@ import java.util.List;
  * @Description:
  */
 public interface ReturnService {
-    List<OrderVo> findOrderByUserId(int i);
+    RestResult findOrderByUserId(Integer page, Integer limit, int i);
 
-    void returnPay(Integer orderId);
+    void returnPay(Integer placement,Integer orderId);
+
+    List<TbPlacement> placements();
+
 }

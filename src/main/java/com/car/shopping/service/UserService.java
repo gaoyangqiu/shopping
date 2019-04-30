@@ -15,4 +15,6 @@ public interface UserService {
     void updateUserInfo(TbUsers users);
 
     void registUserInfo(TbUsers users);
+
+    void updateBalance(Integer balance,Long userId);
 }

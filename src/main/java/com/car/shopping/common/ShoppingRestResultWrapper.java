@@ -28,7 +28,7 @@ public class ShoppingRestResultWrapper implements ResponseBodyAdvice<Object> {
         if (o instanceof RestResult||o instanceof ModelAndView){
             return o;
         }else {
-            result = new RestResult(ErrorMessage.SUCCESS.getCode().toString(), o, null);
+            result = new RestResult(ErrorMessage.SUCCESS.getCode().toString(), o, null,null);
         }
         return JSONObject.toJSON(result);
     }

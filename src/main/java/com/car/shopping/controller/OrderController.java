@@ -37,10 +37,10 @@ public class OrderController {
 
     @RequestMapping("/orderList")
     @ResponseBody
-    public List<OrderVo> orderList(HttpSession session){
+    public RestResult orderList(Integer page,Integer limit,HttpSession session){
         TbUsers user=(TbUsers)session.getAttribute("user");
         Long userId=user.getUid();
-        return returnService.findOrderByUserId(userId.intValue());
+        return orderService.findOrderByUserId(page,limit,userId.intValue());
     }
 
     @RequestMapping("/orderPay")

@@ -1,7 +1,6 @@
 package com.car.shopping.vo;
 
 import com.car.shopping.entity.TbOrder;
-import lombok.Data;
 
 /**
  * @Author: qgy
@@ -9,7 +8,7 @@ import lombok.Data;
  * @Description:
  */
 
-public class OrderVo extends TbOrder{
+public class OrderVo extends TbOrder {
 
     private String bicycleName;
 
@@ -18,6 +17,37 @@ public class OrderVo extends TbOrder{
     private String bicycleTypeName;
 
     private String timeShow;
+
+    private String bicycleNumber;
+
+    private String startTimeShow;
+
+    private String endTimeShow;
+
+
+    public String getStartTimeShow() {
+        return startTimeShow;
+    }
+
+    public void setStartTimeShow(String startTimeShow) {
+        this.startTimeShow = startTimeShow;
+    }
+
+    public String getEndTimeShow() {
+        return endTimeShow;
+    }
+
+    public void setEndTimeShow(String endTimeShow) {
+        this.endTimeShow = endTimeShow;
+    }
+
+    public String getBicycleNumber() {
+        return bicycleNumber;
+    }
+
+    public void setBicycleNumber(String bicycleNumber) {
+        this.bicycleNumber = bicycleNumber;
+    }
 
     public String getBicycleName() {
         return bicycleName;

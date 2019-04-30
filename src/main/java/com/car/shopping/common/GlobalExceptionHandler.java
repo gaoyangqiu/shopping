@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Object logicExceptionHandler(HttpServletRequest request, Exception e, HttpServletResponse response) {
         //系统级异常，错误码固定为-1，提示语固定为系统繁忙，请稍后再试
-        RestResult result = new RestResult("-1", e.getMessage(), ErrorMessage.NullpointerException.getCode());
+        RestResult result = new RestResult("-1", e.getMessage(), ErrorMessage.NullpointerException.getCode(),null);
         //如果是业务逻辑异常，返回具体的错误码与提示信息
         if (e instanceof ServiceException) {
             ServiceException logicException = (ServiceException) e;

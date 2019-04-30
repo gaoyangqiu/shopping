@@ -1,7 +1,6 @@
 package com.car.shopping.vo;
 
 import com.car.shopping.entity.TbBicycle;
-import lombok.Data;
 
 /**
  * @Author: qgy
@@ -9,8 +8,11 @@ import lombok.Data;
  * @Description:
  */
 
-public class BicycleVo extends TbBicycle{
+public class BicycleVo extends TbBicycle {
     private String typeName;
+
+    private String placementName;
+
     private String statusName;
 
     public String getTypeName() {
@@ -19,6 +21,14 @@ public class BicycleVo extends TbBicycle{
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public String getPlacementName() {
+        return placementName;
+    }
+
+    public void setPlacementName(String placementName) {
+        this.placementName = placementName;
     }
 
     public String getStatusName() {

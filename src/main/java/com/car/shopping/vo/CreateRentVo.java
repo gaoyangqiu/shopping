@@ -2,6 +2,8 @@ package com.car.shopping.vo;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @Author: qgy
  * @Date: 2019/3/31 21:06
@@ -9,6 +11,10 @@ import lombok.Data;
  */
 
 public class CreateRentVo {
+
+    private String endTime;
+
+    private String startTime;
 
     private Integer time;
 
@@ -38,5 +44,21 @@ public class CreateRentVo {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 }

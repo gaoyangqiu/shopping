@@ -29,15 +29,20 @@ $(function () {
         table.render({
             elem: '#test'
             ,url: '/orderList'
+            ,cellMinWidth: 80
+            ,limit:10//每页默认数
+            ,limits:[10,20,30,40]
             ,cols: [
                 [
                     {checkbox: true, fixed: true}
                     ,{field:'id', title: 'ID', sort: true, fixed: true}
-                    ,{field:'bicycleName', title: '单车名称'}
-                    ,{field:'totalPrice', title: '总价'}
-                    ,{field:'statusName', title: '订单状态'}
+                    ,{field:'bicycleNumber', title: '单车编号'}
                     ,{field:'bicycleTypeName', title: '单车类型', sort: true}
-                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                    ,{field:'startTimeShow', title: '开始时间'}
+                    ,{field:'endTimeShow', title: '结束时间'}
+                    ,{field:'timeShow', title: '租用时间'}
+                    ,{field:'statusName', title: '订单状态'}
+                    ,{field:'totalPrice', title: '总价格'}
                 ]
             ]
             ,page: true
